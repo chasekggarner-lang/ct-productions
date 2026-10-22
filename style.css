@@ -2420,8 +2420,8 @@ h2 { font-size: clamp(32px, 4.1vw, 65px); line-height: 1.15; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(32px, 5vh, 60px);
-  width: min(100%, 1100px);
+  gap: clamp(20px, 3vh, 36px);
+  width: min(100%, 980px);
 }
 
 /* Logo and glass assembly */
@@ -2429,7 +2429,7 @@ h2 { font-size: clamp(32px, 4.1vw, 65px); line-height: 1.15; }
   position: relative;
   display: grid;
   place-items: center;
-  width: min(76vw, 570px);
+  width: min(62vw, 470px);
   aspect-ratio: 1.35;
   perspective: 1100px;
 }
@@ -2505,6 +2505,7 @@ h2 { font-size: clamp(32px, 4.1vw, 65px); line-height: 1.15; }
   position: relative;
   text-align: center;
   max-width: 900px;
+  margin-top: 8px;
 }
 
 .liquid-eyebrow {
