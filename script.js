@@ -305,10 +305,11 @@
       });
     });
 
-    // Prototype inquiry: validate, then download locally. No backend or email call.
+    // Download a local inquiry draft instead of sending customer data anywhere.
     const inquiry = $('#inquiry');
-    // Formatting HTML can leave whitespace inside an empty textarea.
     const message = $('#message');
+
+    // Formatting HTML can leave whitespace inside an empty textarea.
     if (message && !message.value.trim()) message.value = '';
 
     inquiry?.addEventListener('submit', (event) => {
@@ -317,6 +318,7 @@
       requiredText.forEach((field) => {
         field.value = field.value.trim();
       });
+
       if (!inquiry.reportValidity()) return;
 
       const fields = new FormData(inquiry);
