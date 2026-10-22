@@ -359,3 +359,389 @@
     initialize();
   }
 })();
+/* C&T — Interactive liquid-glass hero */
+(() => {
+  "use strict";
+
+  function initializeLiquidHero() {
+    const hero = document.querySelector(".liquid-hero");
+
+    if (!hero || hero.dataset.liquidInitialized) return;
+
+    hero.dataset.liquidInitialized = "true";
+
+    const canvas = hero.querySelector(".liquid-canvas");
+    const context = canvas?.getContext("2d");
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
+    let width = 0;
+    let height = 0;
+    let frameId = null;
+    let previousTime = 0;
+    let waterTime = 0;
+    let visible = true;
+
+    const target = {
+      x: 0,
+      y: 0,
+      scroll: 0
+    };
+
+    const current = {
+      x: 0,
+      y: 0,
+      scroll: 0
+    };
+
+    function motionDisabled() {
+      return (
+        reducedMotion.matches ||
+        document.body.classList.contains("no-motion")
+      );
+    }
+
+    function canAnimate() {
+      return (
+        visible &&
+        !document.hidden &&
+        !motionDisabled()
+      );
+    }
+
+    function clamp(value, minimum, maximum) {
+      return Math.min(maximum, Math.max(minimum, value));
+    }
+
+    function updateScroll() {
+      const bounds = hero.getBoundingClientRect();
+
+      target.scroll = clamp(
+        -bounds.top / Math.max(bounds.height, 1),
+        0,
+        1
+      );
+    }
+
+    function resizeCanvas() {
+      width = hero.clientWidth;
+      height = hero.clientHeight;
+
+      if (canvas && context) {
+        // Limit resolution to keep the effect light on phones.
+        const pixelRatio = Math.min(
+          window.devicePixelRatio || 1,
+          1.5
+        );
+
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+
+        context.setTransform(
+          pixelRatio,
+          0,
+          0,
+          pixelRatio,
+          0,
+          0
+        );
+      }
+
+      updateScroll();
+
+      if (!motionDisabled()) {
+        drawWater();
+      }
+    }
+
+    function drawWater() {
+      if (!context || width <= 0 || height <= 0) return;
+
+      context.clearRect(0, 0, width, height);
+
+      const centerX = width * 0.5 + current.x * 24;
+      const centerY =
+        height * 0.36 +
+        current.y * 18 -
+        current.scroll * 65;
+
+      const baseRadius = Math.max(width * 0.3, 180);
+      const ringCount = width < 600 ? 10 : 15;
+      const segments = 100;
+
+      context.save();
+      context.translate(centerX, centerY);
+      context.rotate(-0.22);
+      context.lineJoin = "round";
+
+      // Irregular elliptical contours resemble reflected
+      // light traveling across a shallow water surface.
+      for (let ring = 0; ring < ringCount; ring += 1) {
+        const radius = baseRadius * (0.45 + ring * 0.13);
+        const phase = waterTime * 0.5 - ring * 0.42;
+
+        context.beginPath();
+
+        for (let point = 0; point <= segments; point += 1) {
+          const angle = (point / segments) * Math.PI * 2;
+
+          const distortion =
+            Math.sin(angle * 3 + phase) * 0.045 +
+            Math.cos(angle * 5 - phase * 0.7) * 0.025 +
+            Math.sin(angle * 2 + waterTime * 0.3) * 0.035;
+
+          const rippleRadius = radius * (1 + distortion);
+
+          const x = Math.cos(angle) * rippleRadius;
+          const y =
+            Math.sin(angle) * rippleRadius * 0.55 +
+            Math.sin(angle * 2 + phase) * 12;
+
+          if (point === 0) {
+            context.moveTo(x, y);
+          } else {
+            context.lineTo(x, y);
+          }
+        }
+
+        context.closePath();
+
+        // Broad, soft edge underneath a narrow highlight.
+        context.strokeStyle = "rgba(77, 111, 131, 0.045)";
+        context.lineWidth = 9;
+        context.stroke();
+
+        const brightness =
+          0.18 +
+          (Math.sin(phase + ring * 0.2) + 1) * 0.14;
+
+        context.strokeStyle =
+          `rgba(255, 255, 255, ${brightness})`;
+        context.lineWidth = ring % 3 === 0 ? 2 : 1;
+        context.stroke();
+      }
+
+      context.restore();
+
+      // A soft reflection follows the pointer.
+      const lightX = width * (0.5 + current.x * 0.18);
+      const lightY = height * (0.35 + current.y * 0.12);
+      const lightRadius = Math.max(width * 0.32, 160);
+
+      const reflection = context.createRadialGradient(
+        lightX,
+        lightY,
+        0,
+        lightX,
+        lightY,
+        lightRadius
+      );
+
+      reflection.addColorStop(0, "rgba(255,255,255,0.24)");
+      reflection.addColorStop(0.45, "rgba(255,255,255,0.08)");
+      reflection.addColorStop(1, "rgba(255,255,255,0)");
+
+      context.fillStyle = reflection;
+      context.fillRect(0, 0, width, height);
+    }
+
+    function updateLogo() {
+      const bob = Math.sin(waterTime * 0.8) * 4;
+
+      // The logo and glass move at different speeds
+      // to create a subtle sense of depth.
+      hero.style.setProperty(
+        "--logo-x",
+        `${(current.x * 13).toFixed(2)}px`
+      );
+
+      hero.style.setProperty(
+        "--logo-y",
+        `${(
+          current.y * 9 +
+          current.scroll * 42 +
+          bob
+        ).toFixed(2)}px`
+      );
+
+      hero.style.setProperty(
+        "--logo-rotate-x",
+        `${(-current.y * 5 - current.scroll * 5).toFixed(2)}deg`
+      );
+
+      hero.style.setProperty(
+        "--logo-rotate-y",
+        `${(current.x * 7).toFixed(2)}deg`
+      );
+
+      hero.style.setProperty(
+        "--glass-x",
+        `${(-current.x * 10).toFixed(2)}px`
+      );
+
+      hero.style.setProperty(
+        "--glass-y",
+        `${(
+          -current.y * 7 -
+          current.scroll * 24 -
+          bob * 0.5
+        ).toFixed(2)}px`
+      );
+
+      hero.style.setProperty(
+        "--shine-x",
+        `${(50 + current.x * 22).toFixed(2)}%`
+      );
+
+      hero.style.setProperty(
+        "--shine-y",
+        `${(35 + current.y * 18).toFixed(2)}%`
+      );
+    }
+
+    function animate(timestamp) {
+      frameId = null;
+
+      if (!canAnimate()) return;
+
+      const elapsed = previousTime
+        ? timestamp - previousTime
+        : 1000 / 30;
+
+      // Render at approximately 30 FPS.
+      if (elapsed < 1000 / 30) {
+        frameId = requestAnimationFrame(animate);
+        return;
+      }
+
+      previousTime = timestamp;
+
+      const delta = Math.min(elapsed / 1000, 0.06);
+      const easing = 1 - Math.exp(-delta * 5);
+
+      waterTime += delta;
+
+      current.x += (target.x - current.x) * easing;
+      current.y += (target.y - current.y) * easing;
+      current.scroll +=
+        (target.scroll - current.scroll) * easing;
+
+      updateLogo();
+      drawWater();
+
+      frameId = requestAnimationFrame(animate);
+    }
+
+    function synchronizeAnimation() {
+      if (!canAnimate()) {
+        if (frameId !== null) {
+          cancelAnimationFrame(frameId);
+          frameId = null;
+        }
+
+        previousTime = 0;
+        return;
+      }
+
+      if (frameId === null) {
+        previousTime = 0;
+        frameId = requestAnimationFrame(animate);
+      }
+    }
+
+    hero.addEventListener(
+      "pointermove",
+      (event) => {
+        // Let touch gestures scroll the page normally.
+        if (event.pointerType === "touch" || motionDisabled()) {
+          return;
+        }
+
+        const bounds = hero.getBoundingClientRect();
+
+        target.x = clamp(
+          ((event.clientX - bounds.left) / bounds.width - 0.5) * 2,
+          -1,
+          1
+        );
+
+        target.y = clamp(
+          ((event.clientY - bounds.top) / bounds.height - 0.5) * 2,
+          -1,
+          1
+        );
+      },
+      { passive: true }
+    );
+
+    function resetPointer() {
+      target.x = 0;
+      target.y = 0;
+    }
+
+    hero.addEventListener("pointerleave", resetPointer);
+    hero.addEventListener("pointercancel", resetPointer);
+
+    window.addEventListener("scroll", updateScroll, {
+      passive: true
+    });
+
+    // Stop rendering when the hero is off screen.
+    if ("IntersectionObserver" in window) {
+      const visibilityObserver = new IntersectionObserver(
+        ([entry]) => {
+          visible = entry.isIntersecting;
+          updateScroll();
+          synchronizeAnimation();
+        },
+        { threshold: 0 }
+      );
+
+      visibilityObserver.observe(hero);
+    }
+
+    if ("ResizeObserver" in window) {
+      const resizeObserver = new ResizeObserver(resizeCanvas);
+      resizeObserver.observe(hero);
+    } else {
+      window.addEventListener("resize", resizeCanvas, {
+        passive: true
+      });
+    }
+
+    // Connect to the existing Pause motion button,
+    // which adds or removes the body's no-motion class.
+    const motionObserver = new MutationObserver(
+      synchronizeAnimation
+    );
+
+    motionObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"]
+    });
+
+    reducedMotion.addEventListener(
+      "change",
+      synchronizeAnimation
+    );
+
+    document.addEventListener(
+      "visibilitychange",
+      synchronizeAnimation
+    );
+
+    resizeCanvas();
+    synchronizeAnimation();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initializeLiquidHero,
+      { once: true }
+    );
+  } else {
+    initializeLiquidHero();
+  }
+})();

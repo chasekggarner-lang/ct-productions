@@ -10,8 +10,10 @@
     </title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="chatbot.css">
+    <link rel="icon" href="images/C&amp;T-Logo.jpeg">
 <script src="chatbot.js" defer></script>
     <script src="script.js" defer>
+
     </script>
   </head>
   <body>
@@ -20,7 +22,20 @@
     </a>
     <header class="site-header wrap">
       <button class="menu" aria-controls="navigation" aria-expanded="false">Menu</button>
-      <a class="brand" href="#" aria-label="C&amp;T Productions home">C&amp;T Productions</a>
+      <a
+  class="brand brand-with-logo"
+  href="index.html"
+  aria-label="C&T Productions home"
+>
+  <img
+    class="brand-logo"
+    src="images/C&amp;T-Logo.jpeg"
+    alt=""
+    width="64"
+    height="46"
+  >
+  <span>C&amp;T Productions</span>
+</a>
       <a class="header-contact" href="#contact">Contact</a>
       <nav id="navigation" aria-label="Main navigation">
         <a href="#packages">The packages</a>
@@ -31,20 +46,65 @@
       </nav>
     </header>
     <main id="main">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-art" aria-hidden="true">
-          <div class="art-grid"></div>
-          <div class="sculpture">
-            <div class="slab"></div>
-            <div class="slab"></div>
-            <div class="slab"></div>
-          </div>
-        </div>
-        <div class="hero-content">
-          <h1 id="hero-title">Websites with presence.</h1>
-          <a class="pill light" href="#packages">Explore packages</a>
-        </div>
-      </section>
+      <section
+  class="hero liquid-hero"
+  id="home"
+  aria-labelledby="hero-title"
+>
+  <!-- Water and reflected light -->
+  <div class="liquid-scene" aria-hidden="true">
+    <canvas class="liquid-canvas"></canvas>
+
+    <div class="liquid-glow liquid-glow-one"></div>
+    <div class="liquid-glow liquid-glow-two"></div>
+
+    <div class="liquid-rings">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div class="liquid-hero-inner">
+    <!-- Glass surface and floating logo -->
+    <div class="liquid-logo-stage">
+      <div class="liquid-glass" aria-hidden="true">
+        <div class="liquid-glass-shine"></div>
+      </div>
+
+      <div class="liquid-logo-float">
+        <img
+          class="liquid-logo"
+          src="images/C&amp;T-Logo.jpeg"
+          alt="C&T Productions"
+          width="1333"
+          height="964"
+          fetchpriority="high"
+          decoding="async"
+        >
+      </div>
+    </div>
+
+    <div class="liquid-copy">
+      <p class="liquid-eyebrow">
+        DESIGN · DEVELOPMENT · INTELLIGENCE
+      </p>
+
+      <h1 id="hero-title">Websites with presence.</h1>
+
+      <a class="pill liquid-cta" href="#packages">
+        Explore packages
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <a class="liquid-scroll" href="#packages">
+    <span>Scroll to explore</span>
+    <span aria-hidden="true">↓</span>
+  </a>
+</section>
+
       <section class="section packages" id="packages">
         <div class="wrap packages-head reveal">
           <div class="section-head">
@@ -746,58 +806,24 @@
           </div>
         </div>
       </section>
-      <section class="section wrap faq" id="questions">
-        <div class="reveal">
-          <span class="label eyebrow">
-            07 / A little clarity
-          </span>
-          <h2>
-            BEFORE
-            <br>
-            YOU ASK.
-          </h2>
+      <section class="section wrap image-section" id="images">
+        <div class="section-head reveal">
+          <div>
+            <span class="label eyebrow">
+              07 / Featured work
+            </span>
+            <h2>
+              IMAGES
+              <br>
+              THAT SHOW THE WORK.
+            </h2>
+          </div>
+          <p>
+            Add your own project image here and swap the file whenever you want a new featured shot.
+          </p>
         </div>
-        <div>
-          <details>
-            <summary>
-              Which package is right for me?
-            </summary>
-            <p>
-              Basic covers a custom, mobile-friendly website and the essentials. Premium adds photography, advanced design, and expanded content. Premium + Chatbot adds automated answers and inquiry assistance. We confirm the fit during consultation.
-            </p>
-          </details>
-          <details>
-            <summary>
-              What do I need to provide?
-            </summary>
-            <p>
-              We gather your business information, logo, and service or menu content. For packages with photography, we coordinate the photo requirements during planning.
-            </p>
-          </details>
-          <details>
-            <summary>
-              Can I review the website before launch?
-            </summary>
-            <p>
-              Yes. Review and revisions are part of the process. You provide feedback before the final version is approved.
-            </p>
-          </details>
-          <details>
-            <summary>
-              What about my domain and ongoing support?
-            </summary>
-            <p>
-              Domain connection is part of the launch process. We discuss ongoing support if needed. Hosting costs, support arrangements, and any recurring fees should be confirmed in your project scope.
-            </p>
-          </details>
-          <details>
-            <summary>
-              How long will my website take?
-            </summary>
-            <p>
-              Timing depends on the agreed scope and when content and photography are ready. We establish a project timeline during consultation.
-            </p>
-          </details>
+        <div class="image-file-wrap reveal">
+          <img src="images/project-placeholder.svg" alt="Featured project image placeholder" class="image-file">
         </div>
       </section>
       <section class="section wrap contact" id="contact">
@@ -860,8 +886,7 @@
             <label for="message">
               WHAT DO YOU HAVE IN MIND?
             </label>
-            <textarea id="message" name="message" placeholder="Tell us a little about your business and your goals." required maxlength="4000">
-            </textarea>
+            <textarea id="message" name="message" placeholder="Tell us a little about your business and your goals." required maxlength="4000"></textarea>
           </div>
           <button class="pill light" type="submit">
             Send my inquiry
@@ -887,9 +912,19 @@
         BACK TO TOP ↑
       </a>
     </div>
-    <div class="footer-word" aria-hidden="true">
-      C&amp;T
-    </div>
+    <div class="footer-logo-wrap">
+  <a href="#home" aria-label="C&T Productions — back to top">
+    <img
+      class="footer-logo"
+      src="images/C&amp;T-Logo.jpeg"
+      alt="C&T Productions"
+      width="240"
+      height="174"
+      loading="lazy"
+      decoding="async"
+    >
+  </a>
+</div>
     <div class="footer-bottom">
       <span>
         © 2026 C&amp;T Productions

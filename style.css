@@ -957,6 +957,24 @@ h2 {
   line-height:1
 }
 
+.image-section {
+  border-top:1px solid var(--line)
+}
+
+.image-file-wrap {
+  margin-top:50px;
+  border:1px solid var(--line);
+  background:#f2f2f1;
+  overflow:hidden
+}
+
+.image-file {
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:cover
+}
+
 .process {
   border-top:1px solid var(--line)
 }
@@ -2227,4 +2245,496 @@ h2 { font-size: clamp(32px, 4.1vw, 65px); line-height: 1.15; }
   .profile-strengths { grid-template-columns: 1fr; gap: 32px; }
   .profile-connection { grid-template-columns: 1fr; gap: 28px; }
   .profile-next { align-items: start; flex-direction: column; gap: 15px; }
+}
+/* =========================================
+   C&T — Logo and liquid-glass hero
+   ========================================= */
+
+/* Header branding */
+.site-header .brand.brand-with-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  gap: 14px;
+  min-width: 0;
+  color: #111;
+  text-decoration: none;
+  font-size: clamp(15px, 1.8vw, 27px);
+  letter-spacing: 0.055em;
+}
+
+.brand-with-logo .brand-logo {
+  display: block;
+  width: 64px;
+  height: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+/* Hero foundation */
+.hero.liquid-hero {
+  --logo-x: 0px;
+  --logo-y: 0px;
+  --logo-rotate-x: 0deg;
+  --logo-rotate-y: 0deg;
+  --glass-x: 0px;
+  --glass-y: 0px;
+  --shine-x: 50%;
+  --shine-y: 35%;
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: clamp(660px, calc(100svh - 104px), 960px);
+  padding: 64px 24px 96px;
+  overflow: hidden;
+  color: #111;
+  background:
+    radial-gradient(
+      ellipse at 20% 15%,
+      #ffffff 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      135deg,
+      #edf3f4 0%,
+      #cbd7db 38%,
+      #f6f8f8 70%,
+      #dce5e8 100%
+    );
+}
+
+/* Decorative water layers */
+.liquid-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.liquid-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #ffffff10 35%,
+    #f4f7f870 75%,
+    #f4f7f8e6 100%
+  );
+}
+
+.liquid-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.65;
+}
+
+/* Soft light behind the glass */
+.liquid-glow {
+  position: absolute;
+  width: 75%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(65px);
+  opacity: 0.6;
+}
+
+.liquid-glow-one {
+  top: -45%;
+  left: -25%;
+  background: radial-gradient(
+    circle,
+    #ffffff 0%,
+    #ffffff70 35%,
+    transparent 70%
+  );
+}
+
+.liquid-glow-two {
+  right: -30%;
+  bottom: -55%;
+  background: radial-gradient(
+    circle,
+    #a4bcc8 0%,
+    #cbdce370 40%,
+    transparent 70%
+  );
+}
+
+/* Broad, reflective water contours */
+.liquid-rings {
+  position: absolute;
+  inset: -20%;
+  transform: translate3d(
+    var(--glass-x),
+    var(--glass-y),
+    0
+  );
+}
+
+.liquid-rings span {
+  position: absolute;
+  display: block;
+  width: 95%;
+  height: 62%;
+  left: 2%;
+  top: 15%;
+  border: 1px solid #ffffffb3;
+  border-radius: 46% 54% 63% 37% / 43% 39% 61% 57%;
+  box-shadow:
+    0 12px 28px #718b9914,
+    inset 0 3px 14px #ffffff80;
+  transform: rotate(-24deg);
+}
+
+.liquid-rings span:nth-child(2) {
+  width: 110%;
+  height: 70%;
+  left: -8%;
+  top: 22%;
+  opacity: 0.65;
+  transform: rotate(18deg);
+}
+
+.liquid-rings span:nth-child(3) {
+  width: 80%;
+  height: 85%;
+  left: 10%;
+  top: -5%;
+  opacity: 0.45;
+  transform: rotate(-48deg);
+}
+
+/* Content remains above the water */
+.liquid-hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(32px, 5vh, 60px);
+  width: min(100%, 1100px);
+}
+
+/* Logo and glass assembly */
+.liquid-logo-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(76vw, 570px);
+  aspect-ratio: 1.35;
+  perspective: 1100px;
+}
+
+/* Translucent surface */
+.liquid-glass {
+  position: absolute;
+  inset: 2% -3%;
+  overflow: hidden;
+  border: 1px solid #ffffffc9;
+  border-radius: 42% 58% 44% 56% / 57% 39% 61% 43%;
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff99,
+      #ffffff14 45%,
+      #ffffff66
+    );
+  -webkit-backdrop-filter: blur(14px) saturate(115%);
+  backdrop-filter: blur(14px) saturate(115%);
+  box-shadow:
+    inset 0 2px 3px #ffffff,
+    inset 0 -14px 30px #91a9b329,
+    0 30px 65px -30px #344e6266,
+    0 5px 20px #ffffff80;
+
+  transform:
+    translate3d(var(--glass-x), var(--glass-y), 0)
+    rotate(-8deg);
+}
+
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid #ffffff80;
+  border-radius: inherit;
+}
+
+.liquid-glass-shine {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--shine-x) var(--shine-y),
+    #ffffffb3 0%,
+    #ffffff33 24%,
+    transparent 58%
+  );
+}
+
+/* Independent movement keeps the logo above the glass */
+.liquid-logo-float {
+  position: relative;
+  width: 88%;
+  transform:
+    translate3d(var(--logo-x), var(--logo-y), 35px)
+    rotateX(var(--logo-rotate-x))
+    rotateY(var(--logo-rotate-y));
+  transform-origin: center;
+  mix-blend-mode: multiply;
+}
+
+.liquid-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Heading and main action */
+.liquid-copy {
+  position: relative;
+  text-align: center;
+  max-width: 900px;
+}
+
+.liquid-eyebrow {
+  margin: 0 0 18px;
+  color: #46545c;
+  font: 600 10px/1.7 "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: 0.24em;
+}
+
+.hero.liquid-hero h1 {
+  margin: 0;
+  color: #111820;
+  font-size: clamp(32px, 4.5vw, 65px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+  text-transform: none;
+  text-wrap: balance;
+  text-shadow: none;
+  animation: none;
+}
+
+.liquid-hero .liquid-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  min-height: 54px;
+  margin-top: 28px;
+  padding: 17px 26px;
+  border: 1px solid #172129;
+  border-radius: 3px;
+  background: #172129;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 10px 25px #17212914;
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.liquid-hero .liquid-cta::before,
+.liquid-hero .liquid-cta::after {
+  content: none;
+}
+
+.liquid-cta span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+@media (hover: hover) {
+  .liquid-hero .liquid-cta:hover {
+    background: #344652;
+    transform: translateY(-2px);
+  }
+}
+
+.liquid-cta:focus-visible,
+.liquid-scroll:focus-visible,
+.brand-with-logo:focus-visible,
+.footer-logo-wrap a:focus-visible {
+  outline: 2px solid #45718a;
+  outline-offset: 6px;
+}
+
+/* Scroll cue */
+.liquid-scroll {
+  position: absolute;
+  z-index: 2;
+  bottom: 25px;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  transform: translateX(-50%);
+  color: #46545c;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.liquid-scroll span:last-child {
+  font-size: 18px;
+}
+
+/* Footer logo — white mark on the dark footer */
+.footer-logo-wrap {
+  display: flex;
+  justify-content: center;
+  padding: clamp(40px, 7vw, 80px) 0;
+}
+
+.footer-logo-wrap a {
+  display: block;
+  width: min(65vw, 360px);
+  mix-blend-mode: screen;
+}
+
+.footer-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: invert(1);
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .site-header .brand.brand-with-logo {
+    gap: 10px;
+    font-size: clamp(14px, 2.4vw, 22px);
+    letter-spacing: 0.035em;
+  }
+
+  .brand-with-logo .brand-logo {
+    width: 52px;
+  }
+
+  .hero.liquid-hero {
+    min-height: 680px;
+    padding-top: 50px;
+  }
+
+  .liquid-logo-stage {
+    width: min(72vw, 490px);
+  }
+}
+
+/* Mobile — keep room for menu, contact and chatbot */
+@media (max-width: 600px) {
+  .site-header .brand.brand-with-logo {
+    gap: 0;
+    font-size: 0;
+  }
+
+  .site-header .brand.brand-with-logo > span {
+    display: none;
+  }
+
+  .brand-with-logo .brand-logo {
+    width: 72px;
+    max-width: 100%;
+  }
+
+  .hero.liquid-hero {
+    min-height: 620px;
+    padding: 45px 20px 86px;
+  }
+
+  .liquid-hero-inner {
+    gap: 38px;
+  }
+
+  .liquid-logo-stage {
+    width: min(82vw, 390px);
+  }
+
+  .liquid-glass {
+    inset: 0;
+  }
+
+  .liquid-eyebrow {
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    margin-bottom: 14px;
+  }
+
+  .hero.liquid-hero h1 {
+    max-width: 360px;
+    margin-inline: auto;
+    font-size: clamp(32px, 8.5vw, 44px);
+  }
+
+  .liquid-hero .liquid-cta {
+    margin-top: 24px;
+    padding: 16px 22px;
+  }
+
+  .liquid-scroll {
+    bottom: 18px;
+    font-size: 8px;
+  }
+
+  .liquid-glow {
+    filter: blur(35px);
+  }
+}
+
+/* Existing Pause motion button */
+body.no-motion .liquid-logo-float,
+body.no-motion .liquid-rings {
+  transform: none;
+}
+
+body.no-motion .liquid-glass {
+  transform: rotate(-8deg);
+}
+
+body.no-motion .liquid-canvas {
+  visibility: hidden;
+}
+
+/* System reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-logo-float,
+  .liquid-rings {
+    transform: none !important;
+  }
+
+  .liquid-glass {
+    transform: rotate(-8deg) !important;
+  }
+
+  .liquid-canvas {
+    visibility: hidden;
+  }
+
+  .liquid-hero *,
+  .liquid-hero *::before,
+  .liquid-hero *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
