@@ -1,0 +1,10 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" fill="#F1F1EF"/>
+  <rect x="90" y="90" width="1020" height="720" rx="12" fill="#E7E7E4" stroke="#111111" stroke-width="2"/>
+  <path d="M220 620L430 420L555 545L710 360L980 620V720H220V620Z" fill="#D6D6D3"/>
+  <rect x="220" y="250" width="240" height="28" rx="14" fill="#D0D0CF"/>
+  <rect x="220" y="205" width="420" height="24" rx="12" fill="#D0D0CF"/>
+  <rect x="220" y="165" width="160" height="18" rx="9" fill="#C2C2BF"/>
+  <circle cx="355" cy="410" r="68" fill="#C8C8C5"/>
+  <text x="600" y="790" text-anchor="middle" fill="#4B4B48" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="8">PROJECT IMAGE</text>
+</svg>
