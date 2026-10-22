@@ -2250,29 +2250,6 @@ h2 { font-size: clamp(32px, 4.1vw, 65px); line-height: 1.15; }
    C&T — Logo and liquid-glass hero
    ========================================= */
 
-/* Header branding */
-.site-header .brand.brand-with-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  justify-self: center;
-  gap: 14px;
-  min-width: 0;
-  color: #111;
-  text-decoration: none;
-  font-size: clamp(15px, 1.8vw, 27px);
-  letter-spacing: 0.055em;
-}
-
-.brand-with-logo .brand-logo {
-  display: block;
-  width: 64px;
-  height: auto;
-  flex-shrink: 0;
-  object-fit: contain;
-  mix-blend-mode: multiply;
-}
-
 /* Hero foundation */
 .hero.liquid-hero {
   --logo-x: 0px;
@@ -2623,16 +2600,6 @@ h2 { font-size: clamp(32px, 4.1vw, 65px); line-height: 1.15; }
 
 /* Tablet */
 @media (max-width: 900px) {
-  .site-header .brand.brand-with-logo {
-    gap: 10px;
-    font-size: clamp(14px, 2.4vw, 22px);
-    letter-spacing: 0.035em;
-  }
-
-  .brand-with-logo .brand-logo {
-    width: 52px;
-  }
-
   .hero.liquid-hero {
     min-height: 680px;
     padding-top: 50px;
@@ -2645,20 +2612,6 @@ h2 { font-size: clamp(32px, 4.1vw, 65px); line-height: 1.15; }
 
 /* Mobile — keep room for menu, contact and chatbot */
 @media (max-width: 600px) {
-  .site-header .brand.brand-with-logo {
-    gap: 0;
-    font-size: 0;
-  }
-
-  .site-header .brand.brand-with-logo > span {
-    display: none;
-  }
-
-  .brand-with-logo .brand-logo {
-    width: 72px;
-    max-width: 100%;
-  }
-
   .hero.liquid-hero {
     min-height: 620px;
     padding: 45px 20px 86px;
